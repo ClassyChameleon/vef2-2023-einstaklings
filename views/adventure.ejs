@@ -1,3 +1,19 @@
 <%- include('header') -%>
 
-<!-- TODO -->
+<!-- Requires title : String, description : String[], imgLink : String -->
+<!-- optional consequence : String-->
+
+<h1> <%= title %></h1>
+
+<img src="<%= imgLink %>">
+
+<% if (consequence) %>
+<p><%= consequence %></p>
+
+<% for (const s of description) { %>
+  <p> <%= s %> </p>
+<% } %>
+
+
+
+<%- include('footer') -%>
