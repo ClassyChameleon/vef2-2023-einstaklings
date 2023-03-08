@@ -40,3 +40,15 @@ app.use(
 
 // app.use(passport.initialize());
 // app.use(passport.session());
+
+/** Middleware sem sér um villumeðhöndlun. */
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  console.error(err);
+  const title = 'Villa kom upp';
+  res.status(500).render('error', { title });
+});
+
+app.listen(port, () => {
+  console.info(`Server running at http://localhost:${port}/`);
+});
