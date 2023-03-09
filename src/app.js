@@ -3,6 +3,7 @@ import express from 'express';
 import session from 'express-session';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import { indexRouter } from './routes/index-routes.js';
 
 dotenv.config();
 
@@ -40,6 +41,8 @@ app.use(
 
 // app.use(passport.initialize());
 // app.use(passport.session());
+
+app.use('/', indexRouter);
 
 /** Middleware sem sér um villumeðhöndlun. */
 // eslint-disable-next-line no-unused-vars

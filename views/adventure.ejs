@@ -7,13 +7,23 @@
 
 <img src="<%= imgLink %>">
 
-<% if (consequence) %>
+
 <p><%= consequence %></p>
 
-<% for (const s of description) { %>
-  <p> <%= s %> </p>
-<% } %>
-
+<p style="white-space: pre-line"> <%= description %> </p>
+<br>
+<div style ='float: left; padding: 5px;'>
+<form action="<%= destination1 %>" method="patch">
+  <input type="hidden" name="option" value="1">
+  <button><%= option1 %></button>
+</form>
+</div>
+<div style ='float: left; padding: 5px;'>
+<form action="<%= destination2 %>" method="patch">
+  <input type="hidden" name="option" value="2">
+  <button><%= option2 %></button>
+</form>
+</div>
 
 
 <%- include('footer') -%>
