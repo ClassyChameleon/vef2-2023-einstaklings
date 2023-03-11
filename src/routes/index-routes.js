@@ -17,6 +17,7 @@ async function indexRoute(req, res) {
     description: `
     Before you lies Mount Ashmoor, rumored to contain unimaginable treasures.
     It beckons you to go on an adventure!`,
+    hasUser: false,
     destination1: '/adventure/farm',
     option1: 'Let\'s go!',
     destination2: '/end/home',

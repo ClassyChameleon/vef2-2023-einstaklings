@@ -1,9 +1,12 @@
 <%- include('header') -%>
 
-<!-- Requires title : String, description : String[], imgLink : String -->
+<!-- Requires title : String, description : String[], imgLink : String, hasUser : boolean -->
 <!-- optional consequence : String-->
 
 <h1> <%= title %></h1>
+<% if (hasUser) { %>
+  <h3>You are user: <%= username %></h3>
+<% } %>
 
 <img src="<%= imgLink %>">
 
