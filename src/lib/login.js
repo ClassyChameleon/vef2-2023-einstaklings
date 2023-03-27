@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
-import { findByUsername } from './users.js';
+import { createUser, findByUsername } from './users.js';
 
 /**
  * Athugar hvort username og password sé til í notandakerfi.
@@ -55,6 +55,24 @@ export function ensureLoggedIn(req, res, next) {
   }
 
   return res.redirect('/');
+}
+
+export function logout(req, res, next) {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    return res.redirect('/');
+  });
+}
+
+export async function register(req, res, next) {
+  const user = await createUser();
+    // … your authentication or whatever
+    req.login(user, (err) => {
+        if(err) return next(err);
+        return next();
+    });
 }
 
 export default passport;

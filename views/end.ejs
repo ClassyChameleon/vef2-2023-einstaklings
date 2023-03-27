@@ -1,0 +1,30 @@
+<%- include('header') -%>
+
+<!-- Requires
+  title : String,
+  description : String[],
+  imgLink : String,
+  hasUser : boolean
+  endingCount : int -->
+<!-- optional
+  consequence : String-->
+<!-- If hasUser, then requires
+  username: String-->
+
+<h1> <%= title %></h1>
+<% if (hasUser) { %>
+  <h3>You are user: <%= username %></h3>
+<% } %>
+
+<img src="<%= imgLink %>">
+
+
+<p><%= consequence %></p>
+
+<p style="white-space: pre-line"> <%= description %> </p>
+<br>
+<p style="white-space: pre-line"> <%= endingCount %> others met this fate </p>
+<br>
+<%- include('restart') -%>
+
+<%- include('footer') -%>

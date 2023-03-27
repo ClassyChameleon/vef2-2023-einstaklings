@@ -73,22 +73,22 @@ export async function dropSchema(dropFile = DROP_SCHEMA_FILE) {
 //         ENDINGS
 // ======================
 
-// Used when accessing an ending
+// How many got this ending?
 export async function getEnding(ending) {
-  const q = 'SELECT number FROM endings WHERE ending = $1';
+  const q = 'SELECT number FROM endings WHERE name = $1';
 
   const result = await query(q, [ending]);
 
   if (result && result.rowCount === 1) {
-    return result.rows[0];
+    return result.rows[0].number;
   }
 
   return null;
 }
 
-// Don't use if user enters ending without going through the adventure
+// Don't use if user enters ending without going through the adventure (except home ending)
 export async function incrementEnding(ending) {
-  const q = 'UPDATE TABLE endings SET number = number + 1 WHERE ending = $1 RETURNING *';
+  const q = 'UPDATE endings SET number = number + 1 WHERE name = $1 RETURNING *';
 
   const result = await query(q, [ending]);
 

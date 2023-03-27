@@ -1,1 +1,2 @@
 DROP TABLE IF EXISTS endings;
+DROP TABLE IF EXISTS users;

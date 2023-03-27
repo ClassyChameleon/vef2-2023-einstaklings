@@ -3,6 +3,8 @@ import express from 'express';
 import session from 'express-session';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import passport from './lib/login.js';
+import { endRouter } from './routes/end-routes.js';
 import { indexRouter } from './routes/index-routes.js';
 
 dotenv.config();
@@ -39,10 +41,11 @@ app.use(
   })
 );
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
+app.use('/end', endRouter);
 
 /** Middleware sem sér um villumeðhöndlun. */
 // eslint-disable-next-line no-unused-vars

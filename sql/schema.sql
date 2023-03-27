@@ -6,7 +6,7 @@ CREATE TABLE public.endings (
 CREATE TABLE public.users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(64) NOT NULL,
-  location INT DEFAULT 0,
+  location VARCHAR(64) DEFAULT '/start',
   energy INT DEFAULT 100,
   money INT DEFAULT 0,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,

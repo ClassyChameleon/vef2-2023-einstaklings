@@ -1,11 +1,26 @@
 <%- include('header') -%>
 
-<!-- Requires title : String, description : String[], imgLink : String, hasUser : boolean -->
-<!-- optional consequence : String-->
+<!-- Requires
+  title : String,
+  description : String[],
+  imgLink : String,
+  option1, option2 : String,            ['Lets go!', 'Stay at home']
+  destination1, destination2 : String,  ['/adventure/bridge', '/end/home']
+  method1, method2 : String,            ['get', 'post', etc.]
+  hasUser : boolean,
+   -->
+
+<!-- If hasUser, then requires
+  username: String-->
+
+<!-- optional
+  consequence : String-->
+
 
 <h1> <%= title %></h1>
 <% if (hasUser) { %>
   <h3>You are user: <%= username %></h3>
+  <%- include('restart') -%>
 <% } %>
 
 <img src="<%= imgLink %>">
@@ -16,13 +31,13 @@
 <p style="white-space: pre-line"> <%= description %> </p>
 <br>
 <div style ='float: left; padding: 5px;'>
-<form action="<%= destination1 %>" method="patch">
+<form action="<%= destination1 %>" method="<%= method1 %>">
   <input type="hidden" name="option" value="1">
   <button><%= option1 %></button>
 </form>
 </div>
 <div style ='float: left; padding: 5px;'>
-<form action="<%= destination2 %>" method="patch">
+<form action="<%= destination2 %>" method="<%= method2 %>">
   <input type="hidden" name="option" value="2">
   <button><%= option2 %></button>
 </form>
