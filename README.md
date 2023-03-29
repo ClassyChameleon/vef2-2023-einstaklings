@@ -1,3 +1,5 @@
+# Uppsetning  
+
 `createdb vef2-2023-einstaklings`  
 `npm install`  
 `npm run setup`  
