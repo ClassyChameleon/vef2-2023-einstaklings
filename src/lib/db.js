@@ -75,7 +75,7 @@ export async function dropSchema(dropFile = DROP_SCHEMA_FILE) {
 
 // How many got this ending?
 export async function getEnding(ending) {
-  const q = 'SELECT number FROM endings WHERE name = $1';
+  const q = 'SELECT * FROM endings WHERE name = $1';
 
   const result = await query(q, [ending]);
 

@@ -1,15 +1,20 @@
 import { Cloudinary } from '@cloudinary/url-gen';
 import express from 'express';
 import { getEnding, incrementEnding } from '../lib/db.js';
+import { logout } from '../lib/login.js';
 
 export const endRouter = express.Router();
 
 const endings = ['home'];
 
 async function incrementEndingRoute(req, res, next) {
-  const { ending } = req.body;
+  if (req.user === undefined) { return next(); }
 
-  if (ending in endings) {
+  const { ending } = req.params;
+  console.log(`ending: ${ending}`);
+
+  if (endings.includes(ending)) {
+    console.log('ending exists; incrementing');
     await incrementEnding(ending);
     return next();
   }
@@ -18,7 +23,7 @@ async function incrementEndingRoute(req, res, next) {
 }
 
 async function endRoute(req, res) {
-  const { ending } = req.body;
+  const { ending } = req.params;
 
   const cldInstance = new Cloudinary({cloud: {cloudName: 'ddhokwpkf'}});
   const fetchedImage = cldInstance
@@ -41,4 +46,4 @@ async function endRoute(req, res) {
 }
 
 endRouter.get('/:ending', endRoute);
-endRouter.post('/:ending', incrementEndingRoute, endRoute);
+endRouter.post('/:ending', incrementEndingRoute, logout, endRoute);

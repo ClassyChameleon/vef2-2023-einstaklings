@@ -1,5 +1,5 @@
 import passport from 'passport';
-import { Strategy } from 'passport-local';
+import { UniqueTokenStrategy } from 'passport-unique-token';
 import { createUser, findByUsername } from './users.js';
 
 /**
@@ -9,16 +9,19 @@ import { createUser, findByUsername } from './users.js';
  * - Notandahlutur ef rétt
  *
  * @param {string} username Notandanafn til að athuga
+ * @param {string} password Ónotað en Passport krefst þetta sem input
  * @param {function} done Fall sem kallað er í með niðurstöðu
  */
-async function strat(username, done) {
+async function strat(token, done) {
+  console.log('auth start...');
   try {
-    const user = await findByUsername(username);
-
+    console.log(`Attempting to authenticate: ${token}`);
+    const user = await findByUsername(token);
+    console.log(`User: ${user.username}`);
     if (!user) {
       return done(null, false);
     }
-
+    console.log('User found');
     return done(null, user);
   } catch (err) {
     console.error(err);
@@ -27,7 +30,7 @@ async function strat(username, done) {
 }
 
 // Notum local strategy með „strattinu“ okkar til að leita að notanda
-passport.use(new Strategy(strat));
+passport.use(new UniqueTokenStrategy(strat));
 
 // getum stillt með því að senda options hlut með
 // passport.use(new Strategy({ usernameField: 'email' }, strat));
@@ -51,24 +54,23 @@ passport.deserializeUser(async (username, done) => {
 // þá áfram, annars sendir á rótina
 export function ensureLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
+    console.log('isAuthenticated');
     return next();
   }
+  console.log('not isAuthenticated');
 
   return res.redirect('/');
 }
 
 export function logout(req, res, next) {
   req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    return res.redirect('/');
+    if (err) { return next(); }
+    return next();
   });
 }
 
 export async function register(req, res, next) {
   const user = await createUser();
-    // … your authentication or whatever
     req.login(user, (err) => {
         if(err) return next(err);
         return next();

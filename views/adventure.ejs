@@ -8,10 +8,15 @@
   destination1, destination2 : String,  ['/adventure/bridge', '/end/home']
   method1, method2 : String,            ['get', 'post', etc.]
   hasUser : boolean,
+  includeStats : boolean
    -->
 
 <!-- If hasUser, then requires
   username: String-->
+
+<!-- If includeStats, then requires
+  energy: int,
+  money: int-->
 
 <!-- optional
   consequence : String-->
@@ -25,6 +30,11 @@
 
 <img src="<%= imgLink %>">
 
+
+<% if (includeStats) { %>
+  <h3>money: <%= energy %></h3>
+  <h3>money: <%= money %></h3>
+<% } %>
 
 <p><%= consequence %></p>
 

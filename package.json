@@ -37,6 +37,7 @@
     "node-localstorage": "^2.2.1",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "passport-unique-token": "^3.0.0",
     "pg": "^8.7.1",
     "xss": "^1.0.10"
   },
