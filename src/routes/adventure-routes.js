@@ -39,5 +39,5 @@ async function adventureRoute(req, res) {
     });
 }
 
-adventureRouter.get('/:adventure', adventureRoute);
+adventureRouter.get('/:adventure', ensureLoggedIn, adventureRoute);
 adventureRouter.patch('/:adventure', ensureLoggedIn, adventurePatchRoute, adventureRoute);

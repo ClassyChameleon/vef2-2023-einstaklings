@@ -2,13 +2,16 @@ import { Cloudinary } from '@cloudinary/url-gen';
 import express from 'express';
 import { getEnding, incrementEnding } from '../lib/db.js';
 import { logout } from '../lib/login.js';
+import { updateUserLocation } from '../lib/users.js';
 
 export const endRouter = express.Router();
 
 const endings = ['home'];
 
 async function incrementEndingRoute(req, res, next) {
+  console.log(`req.user: ${req.user}`);
   if (req.user === undefined) { return next(); }
+  const { user } = req;
 
   const { ending } = req.params;
   console.log(`ending: ${ending}`);
@@ -16,6 +19,7 @@ async function incrementEndingRoute(req, res, next) {
   if (endings.includes(ending)) {
     console.log('ending exists; incrementing');
     await incrementEnding(ending);
+    updateUserLocation(user.username, `/end/${ending}`);
     return next();
   }
 
