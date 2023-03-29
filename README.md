@@ -1,3 +1,10 @@
+# Uppsetning  
+
+`createdb vef2-2023-einstaklings`  
+`npm install`  
+`npm run setup`  
+`npm run start` # eða `npm run dev`  
+
 # Vefforritun 2, 2023, einstaklingsverkefni
 
 [Kynning í fyrirlestri](https://youtu.be/Ojdkr6W5n6M).
