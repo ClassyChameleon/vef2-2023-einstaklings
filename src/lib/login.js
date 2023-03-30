@@ -8,8 +8,7 @@ import { createUser, findByUsername } from './users.js';
  * - `false` ef notandi ekki til eða lykilorð vitlaust
  * - Notandahlutur ef rétt
  *
- * @param {string} username Notandanafn til að athuga
- * @param {string} password Ónotað en Passport krefst þetta sem input
+ * @param {string} token kóðinn sem leiðir að ævintýri
  * @param {function} done Fall sem kallað er í með niðurstöðu
  */
 async function strat(token, done) {
@@ -37,13 +36,17 @@ passport.use(new UniqueTokenStrategy(strat));
 
 // Geymum username á notanda í session, það er nóg til að vita hvaða notandi þetta er
 passport.serializeUser((user, done) => {
-  done(null, user.username);
+  console.log('Serializing...');
+  console.log(user);
+  const token = user.username;
+  done(null, token);
 });
 
 // Sækir notanda út frá username
-passport.deserializeUser(async (username, done) => {
+passport.deserializeUser(async (token, done) => {
+  console.log('Deserializing...');
   try {
-    const user = await findByUsername(username);
+    const user = await findByUsername(token);
     done(null, user);
   } catch (err) {
     done(err);

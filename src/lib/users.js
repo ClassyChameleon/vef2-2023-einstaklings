@@ -63,13 +63,13 @@ export async function createUser() {
         username = $1
       WHERE
         id = $2
-    RETURNING username;
+    RETURNING *;
   `;
 
   try {
-    let result = await query(q, [userCode]);
-    const {id} = result.rows[0];
-    result = await query(p, [id+userCode, id])
+    const result1 = await query(q, [userCode]);
+    const {id} = result1.rows[0];
+    const result = await query(p, [id+userCode, id])
     return result.rows[0];
   } catch (e) {
     console.error('Gat ekki búið til notanda');

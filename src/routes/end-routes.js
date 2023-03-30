@@ -9,7 +9,7 @@ export const endRouter = express.Router();
 const endings = ['home'];
 
 async function incrementEndingRoute(req, res, next) {
-  console.log(`req.user: ${req.user}`);
+  console.log(`req.user: ${req.user.username}`);
   if (req.user === undefined) { return next(); }
   const { user } = req;
 
