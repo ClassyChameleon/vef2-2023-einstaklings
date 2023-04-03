@@ -77,3 +77,43 @@ export async function createUser() {
 
   return null;
 }
+
+
+export async function updateUserStats(username, energy, money) {
+  const q = `
+    UPDATE users
+      SET
+        energy = $1,
+        money = $2,
+        updated = CURRENT_TIMESTAMP
+      WHERE
+        username = $3;
+  `;
+
+  const result = await query(q, [energy, money, username]);
+
+  if (result && result.rowCount === 1) {
+    return result.rows[0];
+  }
+
+  return null;
+}
+
+export async function updateUserSavedCrow(username) {
+  const q = `
+    UPDATE users
+      SET
+        savedCrow = true,
+        updated = CURRENT_TIMESTAMP
+      WHERE
+        username = $1;
+  `;
+
+  const result = await query(q, [username]);
+
+  if (result && result.rowCount === 1) {
+    return result.rows[0];
+  }
+
+  return null;
+}

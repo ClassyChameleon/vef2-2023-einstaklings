@@ -1,4 +1,5 @@
 import { Cloudinary } from '@cloudinary/url-gen';
+import { Resize } from '@cloudinary/url-gen/actions';
 import express from 'express';
 import { getEnding, incrementEnding } from '../lib/db.js';
 import { logout } from '../lib/login.js';
@@ -32,7 +33,8 @@ async function endRoute(req, res) {
   const cldInstance = new Cloudinary({cloud: {cloudName: 'ddhokwpkf'}});
   const fetchedImage = cldInstance
     .image('https://assets.seniority.in/media/wysiwyg/shutterstock_1230212695.jpg')
-    .setDeliveryType('fetch');
+    .setDeliveryType('fetch')
+    .resize(Resize.fill().width(600).height(500));
 
   const endingCount = await getEnding(ending);
   console.log(endingCount);

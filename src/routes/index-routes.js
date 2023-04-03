@@ -1,4 +1,5 @@
 import { Cloudinary } from '@cloudinary/url-gen';
+import { Resize } from '@cloudinary/url-gen/actions';
 import express from 'express';
 import passport, { ensureLoggedIn, logout } from '../lib/login.js';
 import { createUser } from '../lib/users.js';
@@ -11,7 +12,8 @@ async function startRoute(req, res) {
   const cldInstance = new Cloudinary({cloud: {cloudName: 'ddhokwpkf'}});
   const fetchedImage = cldInstance
     .image('https://comps.canstockphoto.com/an-open-window-across-the-mountain-eps-vectors_csp18696134.jpg')
-    .setDeliveryType('fetch');
+    .setDeliveryType('fetch')
+    .resize(Resize.fill().width(600).height(500));
 
   return res.render('adventure', {
     title: 'Adventure start',
@@ -25,10 +27,8 @@ async function startRoute(req, res) {
     includeStats: false,
     destination1: '/adventure/farm',
     option1: 'Let\'s go!',
-    method1: 'patch',
     destination2: '/end/home',
     option2: 'Stay at home',
-    method2: 'post',
   });
 }
 
@@ -76,11 +76,15 @@ async function continueRoute(req, res) {
   return res.redirect(user.location);
 }
 
+// ===================================
+//              ROUTES
+// ===================================
+
 indexRouter.get('/logout', logout, (req, res) => res.redirect('/'));
 indexRouter.get('/', indexRoute);
 indexRouter.post('/',
   (req, res, next) => {
-    console.log(`Continuing as user: ${req.body.username}`);
+    console.log(`Continuing as user: ${req.body.token}`);
     return next();
   },
   passport.authenticate('token', {
@@ -89,6 +93,7 @@ indexRouter.post('/',
   }),
   continueRoute
 );
+
 indexRouter.get('/start', ensureLoggedIn, startRoute);
 indexRouter.post('/start', createUserMiddleware,
   passport.authenticate('token', {

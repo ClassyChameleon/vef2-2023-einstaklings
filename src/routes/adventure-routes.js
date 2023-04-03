@@ -1,43 +1,79 @@
 import { Cloudinary } from '@cloudinary/url-gen';
+import { Resize } from '@cloudinary/url-gen/actions';
 import express from 'express';
-import { ensureLoggedIn } from '../lib/login';
+import { adventurePatches, adventures } from '../lib/adventureLibrary.js';
+import { ensureLoggedIn } from '../lib/login.js';
+import { updateUserLocation, updateUserSavedCrow, updateUserStats } from '../lib/users.js';
 
 export const adventureRouter = express.Router();
 
-async function adventurePatchRoute(req, res, next) {
-  const { adventure } = req.body;
-
-  if (adventure in adventures) {
-    return next();
+async function adventureNotExistsValidator(req, res, next) {
+  const { adventure } = req.params;
+  const { user } = req;
+  if (!(adventure in adventures)) {
+    console.log(`adventure '${adventure}' not found. Redirecting to last safe location`);
+    return res.redirect(user.location);
   }
 
-  return res.redirect('/');
+  return next();
+}
+
+async function adventurePatchRoute(req, res, next) {
+  console.log('Patch route...');
+  const { option } = req.body; // 1 or 2
+  const { adventure } = req.params;
+  const { user } = req;
+  console.log(`Consequence with option: ${option}`);
+  updateUserLocation(user.username, `/adventure/${adventure}`);
+  console.log(`adventure+option: ${(`${adventure}${option}`) in adventurePatches}`);
+  console.log(`adventure+option value: ${`${adventure}${option}`}`);
+
+  if (adventure+option in adventurePatches) {
+    const change = adventurePatches[adventure+option];
+    user.energy += change.energy;
+    user.money += change.money;
+    updateUserStats(user.username, user.energy, user.money);
+    if (change.savedCrow) updateUserSavedCrow(user.username);
+  }
+
+  return next();
 }
 
 async function adventureRoute(req, res) {
-  const { adventure } = req.body;
+  const { option } = req.body; // 1 or 2
+  const { adventure } = req.params;
+  const info = adventures[adventure];
+  const { user } = req;
+  console.log(`Consequence with option: ${option}`)
+  console.log(info[`consequence${option}`]);
 
   const cldInstance = new Cloudinary({cloud: {cloudName: 'ddhokwpkf'}});
   const fetchedImage = cldInstance
-    .image('https://assets.seniority.in/media/wysiwyg/shutterstock_1230212695.jpg')
-    .setDeliveryType('fetch');
+    .image(info.image)
+    .setDeliveryType('fetch')
+    .resize(Resize.fill().width(600).height(500));
 
-    res.render('adventure', {
-      title: 'Adventure start',
-      imgLink: fetchedImage.toURL(),
-      consequence: '',
-      description: `
-      Before you lies Mount Ashmoor, rumored to contain unimaginable treasures.
-      It beckons you to go on an adventure!`,
-      hasUser: false,
-      destination1: '/adventure/farm',
-      option1: 'Let\'s go!',
-      method1: 'post',
-      destination2: '/end/home',
-      option2: 'Stay at home',
-      method2: 'post',
-    });
+  return res.render('adventure', {
+    title: info.title,
+    imgLink: fetchedImage.toURL(),
+    consequence: info[`consequence${option}`],
+    description: info.description,
+    hasUser: true,
+    username: user.username,
+    includeStats: true,
+    energy: user.energy,
+    money: user.money,
+    destination1: info.destination1,
+    option1: info.option1,
+    destination2: info.destination2,
+    option2: info.option2,
+  });
 }
 
-adventureRouter.get('/:adventure', ensureLoggedIn, adventureRoute);
-adventureRouter.patch('/:adventure', ensureLoggedIn, adventurePatchRoute, adventureRoute);
+adventureRouter.get('/:adventure', ensureLoggedIn, adventureNotExistsValidator, adventureRoute);
+adventureRouter.post('/:adventure',
+  ensureLoggedIn,
+  adventureNotExistsValidator,
+  adventurePatchRoute,
+  adventureRoute
+);

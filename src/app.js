@@ -4,6 +4,7 @@ import session from 'express-session';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import passport from './lib/login.js';
+import { adventureRouter } from './routes/adventure-routes.js';
 import { endRouter } from './routes/end-routes.js';
 import { indexRouter } from './routes/index-routes.js';
 
@@ -46,6 +47,7 @@ app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/end', endRouter);
+app.use('/adventure', adventureRouter);
 
 /** Middleware sem sér um villumeðhöndlun. */
 // eslint-disable-next-line no-unused-vars

@@ -36,15 +36,12 @@ passport.use(new UniqueTokenStrategy(strat));
 
 // Geymum username á notanda í session, það er nóg til að vita hvaða notandi þetta er
 passport.serializeUser((user, done) => {
-  console.log('Serializing...');
-  console.log(user);
   const token = user.username;
   done(null, token);
 });
 
 // Sækir notanda út frá username
 passport.deserializeUser(async (token, done) => {
-  console.log('Deserializing...');
   try {
     const user = await findByUsername(token);
     done(null, user);
