@@ -21,24 +21,25 @@
   consequence : String-->
 
 
-<h1> <%= title %></h1>
 <% if (hasUser) { %>
-  <h3>You are user: <%= username %></h3>
-  <%- include('restart') -%>
+  <div style="display: flex;justify-content: space-between;">
+    <h3>You are user: <%= username %></h3>
+    <%- include('restart') -%>
+  </div>
 <% } %>
+<h1> <%= title %></h1>
+<p><%= consequence %></p>
 
 <img src="<%= imgLink %>">
 
-
-<% if (includeStats) { %>
-  <h3>energy: <%= energy %></h3>
-  <h3>money: <%= money %></h3>
-<% } %>
-
-<p><%= consequence %></p>
-<br>
 <p style="white-space: pre-line"> <%= description %> </p>
 <br>
+<% if (includeStats) { %>
+  <div style="display: flex;justify-content: space-between;">
+    <h3>energy: <%= energy %></h3>
+    <h3>money: <%= money %></h3>
+  </div>
+<% } %>
 <div style ='float: left; padding: 5px;'>
 <form action="<%= destination1 %>" method="post">
   <input type="hidden" name="option" id="option" value="1">

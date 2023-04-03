@@ -32,27 +32,31 @@ async function startRoute(req, res) {
   });
 }
 
-async function createUserMiddleware(req, res, next) {
+async function logoutMiddleware(req, res, next) {
+  console.log('At logoutMiddleware');
   if (req.isAuthenticated()) {
-    if (req.user.location !== '/start') {
-      return res.redirect(req.user.location);
+    console.log('user location: ',req.user.location);
+    if (req.user.location === '/start') {
+      return res.redirect('/start');
     }
+
+    console.log('Logging out');
+    req.logout((err) => {
+      if (err) { return next(); }
+      return next();
+    });
   }
-  console.log(req.user);
-  if (req.user) {
-    console.log('User exists; not creating new one');
-    if (req.user.location !== '/start') {
-      console.log('User not at start; redirecting...');
-      return res.redirect(req.user.location);
-    }
-    return next();
-  }
+
+  return next();
+}
+
+async function createUserMiddleware(req, res, next) {
+  console.log('createUserMIddleware');
 
   const user = await createUser();
   // Example: user.username -> 4TXRY
   // Auto generated unique token for your user.
 
-  console.info(req.login);
   req.body.token = user.username;
 
   return next();
@@ -95,9 +99,9 @@ indexRouter.post('/',
 );
 
 indexRouter.get('/start', ensureLoggedIn, startRoute);
-indexRouter.post('/start', createUserMiddleware,
+indexRouter.post('/start', logoutMiddleware, createUserMiddleware,
   passport.authenticate('token', {
-    failureMessage: 'Notandanafn eða lykilorð vitlaust.',
+    failureMessage: 'Token error: Please don\'t tell anyone',
     failureRedirect: '/loginFailed',
   }),
   startRoute

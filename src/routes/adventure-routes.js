@@ -3,11 +3,16 @@ import { Resize } from '@cloudinary/url-gen/actions';
 import express from 'express';
 import { adventurePatches, adventures } from '../lib/adventureLibrary.js';
 import { ensureLoggedIn } from '../lib/login.js';
-import { updateUserLocation, updateUserSavedCrow, updateUserStats } from '../lib/users.js';
+import {
+  getUserLocation,
+  updateUserLocation,
+  updateUserSavedCrow,
+  updateUserStats
+} from '../lib/users.js';
 
 export const adventureRouter = express.Router();
 
-async function adventureNotExistsValidator(req, res, next) {
+async function adventureExistsValidator(req, res, next) {
   const { adventure } = req.params;
   const { user } = req;
   if (!(adventure in adventures)) {
@@ -16,6 +21,30 @@ async function adventureNotExistsValidator(req, res, next) {
   }
 
   return next();
+}
+
+// Makes sure user doesn't skip parts of the adventure
+async function chronologicalOrderMiddleware(req, res, next) {
+  const { user } = req;
+  const { adventure } = req.params;
+
+  // Don't trust client side user data! Instead find location from database.
+  const { location } = await getUserLocation(user.username);
+  console.log(location);
+  // example: userLocation = '/adventure/farm', simplerLocation = 'farm'
+  const simpleLocation = location.substr(11);
+  if (adventure === 'farm' && location === '/start') {
+    return next();
+  }
+  console.log(`${adventures[simpleLocation].previous} ${adventure}`)
+  if (adventures[adventure].previous === location ||
+      location === `/adventure/${adventure}`) {
+    return next();
+  }
+
+
+  console.log(`chronological order broken. Redirecting to: ${location}`);
+  return res.redirect(location);
 }
 
 async function adventurePatchRoute(req, res, next) {
@@ -32,6 +61,7 @@ async function adventurePatchRoute(req, res, next) {
     const change = adventurePatches[adventure+option];
     user.energy += change.energy;
     user.money += change.money;
+    if (change.fullRecharge) user.energy = 100;
     updateUserStats(user.username, user.energy, user.money);
     if (change.savedCrow) updateUserSavedCrow(user.username);
   }
@@ -70,10 +100,16 @@ async function adventureRoute(req, res) {
   });
 }
 
-adventureRouter.get('/:adventure', ensureLoggedIn, adventureNotExistsValidator, adventureRoute);
+adventureRouter.get('/:adventure',
+  ensureLoggedIn,
+  chronologicalOrderMiddleware,
+  adventureExistsValidator,
+  adventureRoute
+);
 adventureRouter.post('/:adventure',
   ensureLoggedIn,
-  adventureNotExistsValidator,
+  chronologicalOrderMiddleware,
+  adventureExistsValidator,
   adventurePatchRoute,
   adventureRoute
 );

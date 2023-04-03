@@ -1,41 +1,5 @@
 import { query } from './db.js';
 
-export async function updateUserLocation(username, location) {
-  const q = `
-    UPDATE users
-      SET
-        location = $1,
-        updated = CURRENT_TIMESTAMP
-      WHERE
-        username = $2;
-  `;
-
-  const result = await query(q, [location, username]);
-
-  if (result && result.rowCount === 1) {
-    return result.rows[0];
-  }
-
-  return null;
-}
-
-export async function findByUsername(username) {
-  const q = 'SELECT * FROM users WHERE username = $1';
-
-  try {
-    const result = await query(q, [username]);
-
-    if (result.rowCount === 1) {
-      return result.rows[0];
-    }
-  } catch (e) {
-    console.error('Gat ekki fundið notanda eftir notendnafni');
-    return null;
-  }
-
-  return false;
-}
-
 export async function createUser() {
   // Create a 4 letter code for minimal security
   let userCode = '';
@@ -78,6 +42,53 @@ export async function createUser() {
   return null;
 }
 
+export async function findByUsername(username) {
+  const q = 'SELECT * FROM users WHERE username = $1';
+
+  try {
+    const result = await query(q, [username]);
+
+    if (result.rowCount === 1) {
+      return result.rows[0];
+    }
+  } catch (e) {
+    console.error('Gat ekki fundið notanda eftir notendnafni');
+    return null;
+  }
+
+  return false;
+}
+
+export async function getUserLocation(username) {
+  const q = 'SELECT location FROM users WHERE username = $1';
+
+  const result = await query(q, [username]);
+
+  if (result && result.rowCount === 1) {
+    return result.rows[0];
+  }
+
+  return null;
+}
+
+export async function updateUserLocation(username, location) {
+  const q = `
+    UPDATE users
+      SET
+        location = $1,
+        updated = CURRENT_TIMESTAMP
+      WHERE
+        username = $2;
+  `;
+
+  const result = await query(q, [location, username]);
+
+  if (result && result.rowCount === 1) {
+    return result.rows[0];
+  }
+
+  return null;
+}
 
 export async function updateUserStats(username, energy, money) {
   const q = `
@@ -91,6 +102,20 @@ export async function updateUserStats(username, energy, money) {
   `;
 
   const result = await query(q, [energy, money, username]);
+
+  if (result && result.rowCount === 1) {
+    return result.rows[0];
+  }
+
+  return null;
+}
+
+export async function getUserMoney(username) {
+  const q = `
+    SELECT money FROM users WHERE username = $1
+  `;
+
+  const result = await query(q, [username]);
 
   if (result && result.rowCount === 1) {
     return result.rows[0];
