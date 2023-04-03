@@ -34,7 +34,7 @@ async function endRoute(req, res) {
   const fetchedImage = cldInstance
     .image('https://assets.seniority.in/media/wysiwyg/shutterstock_1230212695.jpg')
     .setDeliveryType('fetch')
-    .resize(Resize.fill().width(600).height(500));
+    .resize(Resize.fill().width(600).height(400));
 
   const endingCount = await getEnding(ending);
   console.log(endingCount);

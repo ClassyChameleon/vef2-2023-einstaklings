@@ -13,7 +13,7 @@ async function startRoute(req, res) {
   const fetchedImage = cldInstance
     .image('https://comps.canstockphoto.com/an-open-window-across-the-mountain-eps-vectors_csp18696134.jpg')
     .setDeliveryType('fetch')
-    .resize(Resize.fill().width(600).height(500));
+    .resize(Resize.fill().width(600).height(400));
 
   return res.render('adventure', {
     title: 'Adventure start',

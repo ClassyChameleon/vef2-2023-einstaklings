@@ -5,6 +5,7 @@ import { adventurePatches, adventures } from '../lib/adventureLibrary.js';
 import { ensureLoggedIn } from '../lib/login.js';
 import {
   getUserLocation,
+  getUserMoney,
   updateUserLocation,
   updateUserSavedCrow,
   updateUserStats
@@ -31,7 +32,7 @@ async function chronologicalOrderMiddleware(req, res, next) {
   // Don't trust client side user data! Instead find location from database.
   const { location } = await getUserLocation(user.username);
   console.log(location);
-  // example: userLocation = '/adventure/farm', simplerLocation = 'farm'
+  // userLocation = '/adventure/farm', simplerLocation = 'farm'
   const simpleLocation = location.substr(11);
   if (adventure === 'farm' && location === '/start') {
     return next();
@@ -56,6 +57,13 @@ async function adventurePatchRoute(req, res, next) {
   updateUserLocation(user.username, `/adventure/${adventure}`);
   console.log(`adventure+option: ${(`${adventure}${option}`) in adventurePatches}`);
   console.log(`adventure+option value: ${`${adventure}${option}`}`);
+  if (adventure === 'townNight' && parseInt(option, 10) === 2) {
+    console.log('townNight and option 2 accepted');
+    const { money } = await getUserMoney(user.username);
+    if (money >= 50) {
+      return res.redirect('/end/bridge');
+    }
+  }
 
   if (adventure+option in adventurePatches) {
     const change = adventurePatches[adventure+option];
@@ -81,7 +89,7 @@ async function adventureRoute(req, res) {
   const fetchedImage = cldInstance
     .image(info.image)
     .setDeliveryType('fetch')
-    .resize(Resize.fill().width(600).height(500));
+    .resize(Resize.fill().width(600).height(400));
 
   return res.render('adventure', {
     title: info.title,
