@@ -110,7 +110,7 @@ adventures.townDay = new Adventure(
   'Good morning',
   `As the sun rises, the town becomes full of life as people go to work.
   Rumors around town say that a dragon lives in Mount Ashmoor.
-  A local blacksmith is selling a dragonslaying sword for 50 money.
+  A local blacksmith is said to have a dragonslaying sword for sale.
   There is also an alchemist who might have something useful. Who do you visit?`,
   'https://cdn1.epicgames.com/ue/product/Screenshot/6-1920x1080-de8fb9d4ca8c06a5d20d93fd35d2c992.jpg',
   'Visit the blacksmith',

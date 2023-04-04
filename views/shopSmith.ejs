@@ -1,0 +1,72 @@
+<%- include('header') -%>
+
+<!-- Requires
+  imgLink : String,
+  hasUser : boolean,
+  includeStats : boolean
+  visitedAlchemist : boolean
+  has50g : boolean
+   -->
+
+<!-- If hasUser, then requires
+  username: String-->
+
+<!-- If includeStats, then requires
+  money: int-->
+
+
+<% if (hasUser) { %>
+  <div style="display: flex;justify-content: space-between;">
+    <h3>You are user: <%= username %></h3>
+    <%- include('restart') -%>
+  </div>
+<% } %>
+<h1> The Humble Blacksmith</h1>
+
+<img src="<%= imgLink %>">
+
+<p style="white-space: pre-line"> You arrive at the Blacksmith's shop.
+  On display you see two items: a blunt dagger and a "dragonslaying" sword.
+  The dagger is marked 'free', but the dragonslaying sword costs 50g
+
+  The blacksmith doesn't seem very busy so you ask him about these prices
+  "Well traveler, this blunt dagger wasn't made by me. Someone left it here and
+  I don't feel right charging money for it, especially since I know nothing about it.
+  However, this dragonslaying sword is made by me. It's of Valyrian steel, which as you
+  might know is very expensive metal, and is the only metal known to cut through dragonskin.
+  My hope is that someone takes it and slays the dragon of Mount Ashmoor while it slumbers
+  because when it awakens, it is sure to wipe out this village and many more" </p>
+<br>
+<% if (includeStats) { %>
+  <div style="display: flex; justify-content: center;">
+    <h3>money: <%= money %></h3>
+  </div>
+<% } %>
+
+<div style="display: flex;justify-content: center;">
+  <div style ='float: left; padding: 5px;'>
+    <form action="/end/dragon" method="post">
+      <button>Take the mysterious dagger and head to Mount Ashmoor</button>
+    </form>
+  </div>
+  <div style ='float: left; padding: 5px;'>
+    <form action="/end/dragonSlayer" method="post">
+      <button <% if (has50g) { %> disabled <% } %> >Buy the dragonslaying sword and head to Mount Ashmoor</button>
+    </form>
+  </div>
+  <% if (!visitedAlchemist) { %>
+    <div style ='float: left; padding: 5px;'>
+      <form action="/end/town" method="post">
+        <button>Visit Alchemist</button>
+      </form>
+    </div>
+  <% } %>
+  <div style ='float: left; padding: 5px;'>
+    <form action="/end/town" method="post">
+      <button>Give up and go home</button>
+    </form>
+  </div>
+</div>
+
+
+<%- include('footer') -%>

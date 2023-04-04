@@ -7,6 +7,7 @@ import passport from './lib/login.js';
 import { adventureRouter } from './routes/adventure-routes.js';
 import { endRouter } from './routes/end-routes.js';
 import { indexRouter } from './routes/index-routes.js';
+import { shopRouter } from './routes/shop-routes.js';
 
 dotenv.config();
 
@@ -48,6 +49,7 @@ app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/end', endRouter);
 app.use('/adventure', adventureRouter);
+app.use('/shop', shopRouter);
 
 /** Middleware sem sér um villumeðhöndlun. */
 // eslint-disable-next-line no-unused-vars
