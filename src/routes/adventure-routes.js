@@ -61,7 +61,7 @@ async function adventurePatchRoute(req, res, next) {
     console.log('townNight and option 2 accepted');
     const { money } = await getUserMoney(user.username);
     if (money >= 50) {
-      return res.redirect('/end/bridge');
+      return res.redirect(307, '/end/bridge'); // 307 - POST
     }
   }
 
