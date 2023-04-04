@@ -85,6 +85,12 @@ async function adventureRoute(req, res) {
   console.log(`Consequence with option: ${option}`)
   console.log(info[`consequence${option}`]);
 
+  let disableOption1 = false;
+  if ((adventure === 'bridge' || adventure === 'townNight') && user.money < 10) {
+    console.log('disabled option 1', adventure, user.money);
+    disableOption1 = true;
+  }
+
   const cldInstance = new Cloudinary({cloud: {cloudName: 'ddhokwpkf'}});
   const fetchedImage = cldInstance
     .image(info.image)
@@ -105,6 +111,7 @@ async function adventureRoute(req, res) {
     option1: info.option1,
     destination2: info.destination2,
     option2: info.option2,
+    disableOption1,
   });
 }
 

@@ -29,6 +29,7 @@ async function startRoute(req, res) {
     option1: 'Let\'s go!',
     destination2: '/end/home',
     option2: 'Stay at home',
+    disableOption1: false,
   });
 }
 

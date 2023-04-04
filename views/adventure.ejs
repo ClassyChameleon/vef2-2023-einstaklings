@@ -44,7 +44,7 @@
   <div style ='float: left; padding: 5px;'>
     <form action="<%= destination1 %>" method="post">
       <input type="hidden" name="option" id="option" value="1">
-      <button><%= option1 %></button>
+      <button <% if (disableOption1) { %> disabled <% } %> ><%= option1 %></button>
     </form>
   </div>
   <div style ='float: left; padding: 5px;'>
