@@ -1,7 +1,8 @@
-function Ending(title, image, description) {
+function Ending(title, image, description, prev) {
   this.title = title;
   this.image = image;
   this.description = description;
+  this.prev = prev;
 }
 
 const endings = [];
@@ -10,14 +11,16 @@ endings.home = new Ending(
   'Early Retirement',
   'https://assets.seniority.in/media/wysiwyg/shutterstock_1230212695.jpg',
   `Instead of doing something exciting with your life, you instead choose to stay at home.
-  Years pass and as you grow old you begin to regret not creating any memories for you to look back on.`
+  Years pass and as you grow old you begin to regret not creating any memories for you to look back on.`,
+  ['/start'],
 );
 
 endings.bridge = new Ending(
   'Drowned in greed',
   'https://res.cloudinary.com/ddhokwpkf/image/upload/v1680707390/drownedCut_pr7qx4.jpg',
   `Halfway across the river you become exhausted and sink like a rock.
-  With your final breath, you smile with pride for having 50 gold coins in your pocket rather than 40.`
+  With your final breath, you smile with pride for having 50 gold coins in your pocket rather than 40.`,
+  ['/adventure/bridge']
 );
 
 endings.town = new Ending(
@@ -25,7 +28,8 @@ endings.town = new Ending(
   'https://images.pexels.com/photos/5341407/pexels-photo-5341407.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
   `With no hope of getting past the dragon, you head back home.
   You feel happy knowing that at least you tried to do something special.
-  If another adventure comes up, you feel confident that you wont shy away from it.`
+  If another adventure comes up, you feel confident that you wont shy away from it.`,
+  ['/shop/alchemist', '/shop/smith']
 );
 
 endings.dragon = new Ending(
@@ -33,7 +37,8 @@ endings.dragon = new Ending(
   'https://thumbs.dreamstime.com/b/chewing-cartoon-dragon-full-mouth-vector-illustration-147607400.jpg',
   `With your blunt dagger, you sneak up on the sleeping dragon.
   You poke it with the pointy end, but the blade breaks on impact.
-  The dragon wakes up and eats you.`
+  The dragon wakes up and eats you.`,
+  ['/shop/smith']
 );
 
 endings.dragonSlayer = new Ending(
@@ -48,7 +53,8 @@ endings.dragonSlayer = new Ending(
 The dragon is slain, and the treasure is yours!
 
 You are hailed as a hero, the king grants you a life of luxury and a feast is held in your honor.
-In the end, you are happy that you decided to go on an adventure and in your elder years you are content with your legacy.`
+In the end, you are happy that you decided to go on an adventure and in your elder years you are content with your legacy.`,
+['/shop/smith']
 );
 
 endings.kingsCrown = new Ending(
@@ -85,7 +91,8 @@ They help you carry the egg and to the palace where you are greeted with cheers.
 The king is pleased and tells you that this will secure the kingdom's future.
 He grants you a life of luxury and holds a feast in your honor.
 In the end, you are famous, have many friends and most importantly you're happy.
-You're happy that you decided to go on an adventure and in your elder years you are content with your legacy.`
+You're happy that you decided to go on an adventure and in your elder years you are content with your legacy.`,
+  ['/shop/alchemist']
 );
 
 export { endings };

@@ -20,6 +20,23 @@ async function endingExistsMiddleware(req, res, next) {
   return res.redirect('/');
 }
 
+async function chronologicalOrderMiddleware(req, res, next) {
+  const { user } = req;
+  const { ending } = req.params;
+  const info = endings[ending];
+  const { location } = user;
+
+  console.log('user.location:',location);
+  console.log('caught ending:',ending);
+  if (info.prev.includes(location)) {
+    return next();
+  }
+
+
+  console.log(`chronological order broken. Redirecting to: ${location}`);
+  return res.redirect(location);
+}
+
 async function incrementEndingRoute(req, res, next) {
   console.log(`req.user: ${req.user.username}`);
   if (req.user === undefined) { return next(); }
@@ -56,10 +73,17 @@ async function endRoute(req, res) {
   });
 }
 
-endRouter.get('/:ending', endingExistsMiddleware, endRoute);
-endRouter.post('/:ending',
-  endingExistsMiddleware,
+endRouter.get('/:ending',
   ensureLoggedIn,
+  endingExistsMiddleware,
+  chronologicalOrderMiddleware,
+  logout,
+  endRoute
+);
+endRouter.post('/:ending',
+  ensureLoggedIn,
+  endingExistsMiddleware,
+  chronologicalOrderMiddleware,
   incrementEndingRoute,
   logout,
   endRoute
