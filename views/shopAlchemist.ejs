@@ -1,0 +1,69 @@
+<%- include('header') -%>
+
+<!-- Requires
+  title : String
+  imgLink : String,
+  hasUser : boolean,
+  includeStats : boolean
+  savedCrow : boolean
+   -->
+
+<!-- If hasUser, then requires
+  username: String-->
+
+<!-- If includeStats, then requires
+  money: int-->
+
+
+<% if (hasUser) { %>
+  <div style="display: flex;justify-content: space-between;">
+    <h3>You are user: <%= username %></h3>
+    <%- include('restart') -%>
+  </div>
+<% } %>
+<h1><%= title %></h1>
+
+<img src="<%= imgLink %>">
+
+<p style="white-space: pre-line"> You arrive at the Alchemists shop.
+  On display you see large variety of potions of different sizes and shapes.
+
+  "Welcome traveler. No doubt you're here to buy some of my great potions.
+  Unfortunately, you can't have my potions. They're too strong for you.
+  You'll have to find an alchemist that sells weaker potions"
+
+  You note that the shelves around you are labeled and full of potions.
+  'Too strong', 'Too strong', 'A little weaker, but still too strong'
+  on one shelf labeled 'Weak enough for adventurers' you find only a single potion.
+  'Invisibility potion, 100g'.
+
+  You pick it up and ask:
+  "Alchemist, what about this potion?"
+  "Why a weak invisibility potion? I wont hand it to a stranger like you.
+  How do I know you wouldn't use it to steal the rest of my potions?
+  Be gone! You have no business here! You can't handle my potions!"
+
+  He gestures for you to leave.
+  It seems he doesn't want to sell you anything </p>
+<br>
+<% if (includeStats) { %>
+  <div style="display: flex; justify-content: center;">
+    <h3>money: <%= money %></h3>
+  </div>
+<% } %>
+
+<div style="display: flex;justify-content: center;">
+  <div style ='float: left; padding: 5px;'>
+    <form action="/end/dragon" method="post">
+      <button>Visit the blacksmith</button>
+    </form>
+  </div>
+  <div style ='float: left; padding: 5px;'>
+    <form action="<% if (savedCrow) { %> /end/KingsCrown <% } else { %>/end/town <% } %>" method="post">
+      <button>Give up and go home</button>
+    </form>
+  </div>
+</div>
+
+
+<%- include('footer') -%>

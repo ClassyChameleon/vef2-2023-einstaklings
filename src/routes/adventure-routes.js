@@ -4,7 +4,6 @@ import express from 'express';
 import { adventurePatches, adventures } from '../lib/adventureLibrary.js';
 import { ensureLoggedIn } from '../lib/login.js';
 import {
-  getUserLocation,
   getUserMoney,
   updateUserLocation,
   updateUserSavedCrow,
@@ -29,10 +28,10 @@ async function chronologicalOrderMiddleware(req, res, next) {
   const { user } = req;
   const { adventure } = req.params;
 
-  // Don't trust client side user data! Instead find location from database.
-  const { location } = await getUserLocation(user.username);
-  console.log(location);
-  // userLocation = '/adventure/farm', simplerLocation = 'farm'
+  const { location } = user;
+  console.log('user.location:',location);
+  console.log('caught adventure:',adventure);
+  // location = '/adventure/farm', simplerLocation = 'farm'
   const simpleLocation = location.substr(11);
   if (adventure === 'farm' && location === '/start') {
     return next();

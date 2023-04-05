@@ -37,7 +37,7 @@ shops.smith = new Shop(
   might know is very expensive metal, and is the only metal known to cut through dragonskin.
   My hope is that someone takes it and slays the dragon of Mount Ashmoor while it slumbers
   because when it awakens, it is sure to wipe out this village and many more"`,
-  'https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/troll-on-bridge-stephen-humphries.jpg',
+  'https://www.medievalbrick.com/wp-content/uploads/2022/12/the-position-of-medieval-blacksmith-3.png',
   'Take the mysterious dagger and head to Mount Ashmoor',
   'Buy the dragonslaying sword and head to Mount Ashmoor',
   '/end/dragon',
@@ -69,7 +69,7 @@ shops.alchemist = new Shop(
 
   He gestures for you to leave.
   It seems he doesn't want to sell you anything`,
-  'https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/troll-on-bridge-stephen-humphries.jpg',
+  'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2adb800f-68e0-4d63-99d1-2a9cd966ffbd/dc886ho-c117ec95-5292-47c2-a43a-bfc5c99492af.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzJhZGI4MDBmLTY4ZTAtNGQ2My05OWQxLTJhOWNkOTY2ZmZiZFwvZGM4ODZoby1jMTE3ZWM5NS01MjkyLTQ3YzItYTQzYS1iZmM1Yzk5NDkyYWYuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.HwAzB-yayW6H_0kNwjJs9w69lyDsNANDn1d3wnXmN08',
   'Take the mysterious dagger and head to Mount Ashmoor',
   'Buy the dragonslaying sword and head to Mount Ashmoor',
   '/end/dragon',

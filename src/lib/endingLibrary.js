@@ -52,10 +52,16 @@ In the end, you are happy that you decided to go on an adventure and in your eld
 );
 
 endings.kingsCrown = new Ending(
-  'Favored by the king',
+  'Invisibility potion',
   'https://res.cloudinary.com/ddhokwpkf/image/upload/v1680609640/KingsCrown_c0l4tv.png',
-  `As you approach the dragon, you gulp down your invisibility potion.
+  `You leave the village disappointed.
+  As you're about to give up and head home, a familiar crow lands in front of you holding the invisibility potion from the alchemist.
+  You hold your hand out and the crow drops the potion in your hand and flies away. They sure are smart creatures
+
+  You head off to Mount Ashmoor as you are sure this potion will help you get some treasure.
+  As you approach the dragon, you gulp down your invisibility potion.
   It really works, you are invisible!
+  Your clothes are also invisible. Seems that everything you touch also becomes invisible.
   As you sneak by the slumbering dragon, it wakes up.
   You stand still and hear your heartbeat pulsing quickly.
   The dragon sees nothing wrong and goes back to sleep.

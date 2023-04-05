@@ -51,10 +51,11 @@ passport.deserializeUser(async (token, done) => {
 });
 
 // Hjálpar middleware sem athugar hvort notandi sé innskráður og hleypir okkur
-// þá áfram, annars sendir á rótina
-export function ensureLoggedIn(req, res, next) {
+// þá áfram, annars sendir á rótina. Sækir líka user frá database
+export async function ensureLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     console.log('isAuthenticated');
+    req.user = await findByUsername(req.user.username);
     return next();
   }
   console.log('not isAuthenticated');
