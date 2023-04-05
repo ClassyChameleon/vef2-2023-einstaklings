@@ -3,10 +3,22 @@ import { Resize } from '@cloudinary/url-gen/actions';
 import express from 'express';
 import { getEnding, incrementEnding } from '../lib/db.js';
 import { endings } from '../lib/endingLibrary.js';
-import { logout } from '../lib/login.js';
+import { ensureLoggedIn, logout } from '../lib/login.js';
 import { updateUserLocation } from '../lib/users.js';
 
 export const endRouter = express.Router();
+
+async function endingExistsMiddleware(req, res, next) {
+  const { ending } = req.params;
+  console.log(`ending: ${ending}`);
+
+  if (ending in endings) {
+    return next();
+  }
+
+  console.log('ending not found: redirecting to /');
+  return res.redirect('/');
+}
 
 async function incrementEndingRoute(req, res, next) {
   console.log(`req.user: ${req.user.username}`);
@@ -14,17 +26,11 @@ async function incrementEndingRoute(req, res, next) {
   const { user } = req;
 
   const { ending } = req.params;
-  console.log(`ending: ${ending}`);
 
-  if (ending in endings) {
-    console.log('ending exists; incrementing');
-    await incrementEnding(ending);
-    updateUserLocation(user.username, `/end/${ending}`);
-    return next();
-  }
-
-  console.log('ending not found: redirecting to /');
-  return res.redirect('/');
+  console.log('ending exists; incrementing');
+  await incrementEnding(ending);
+  updateUserLocation(user.username, `/end/${ending}`);
+  return next();
 }
 
 async function endRoute(req, res) {
@@ -35,9 +41,9 @@ async function endRoute(req, res) {
   const fetchedImage = cldInstance
     .image(info.image)
     .setDeliveryType('fetch')
-    .resize(Resize.fill().width(600).height(400));
+    .resize(Resize.scale().width(600).height(400));
 
-  const endingCount = await getEnding(ending);
+  const endingCount = (await getEnding(ending)) -1;
   console.log(endingCount);
 
   res.render('end', {
@@ -50,5 +56,11 @@ async function endRoute(req, res) {
   });
 }
 
-endRouter.get('/:ending', endRoute);
-endRouter.post('/:ending', incrementEndingRoute, logout, endRoute);
+endRouter.get('/:ending', endingExistsMiddleware, endRoute);
+endRouter.post('/:ending',
+  endingExistsMiddleware,
+  ensureLoggedIn,
+  incrementEndingRoute,
+  logout,
+  endRoute
+);

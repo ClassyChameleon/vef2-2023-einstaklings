@@ -3,7 +3,8 @@ import { Resize } from '@cloudinary/url-gen/actions';
 import express from 'express';
 import { ensureLoggedIn } from '../lib/login.js';
 import {
-  updateUserLocation
+  updateUserLocation,
+  updateUserVisitedAlchemist
 } from '../lib/users.js';
 
 export const shopRouter = express.Router();
@@ -27,7 +28,7 @@ async function chronologicalOrderMiddleware(req, res, next) {
   const { location } = user;
   console.log(location);
 
-  if (location === ('/adventure/townDay' || '/shop/alchemist' || '/shop/smith')) {
+  if (['/adventure/townDay', '/shop/alchemist', '/shop/smith'].includes(location)) {
     return next();
   }
 
@@ -66,10 +67,12 @@ async function shopRoute(req, res) {
       username: user.username,
       includeStats: true,
       money: user.money,
-      visitedAlchemist: user.visitedAlchemist,
+      visitedAlchemist: user.visitedalchemist,
     });
   }
   if (shop === 'alchemist') {
+    updateUserVisitedAlchemist(user.username);
+    console.log(`Did you save the crow? ${user.savedcrow}`);
     const image = 'https://res.cloudinary.com/ddhokwpkf/image/upload/v1680703306/alchemist_fwxpu0.jpg';
     const fetchedImage = cldInstance
       .image(image)
@@ -83,7 +86,7 @@ async function shopRoute(req, res) {
       username: user.username,
       includeStats: true,
       money: user.money,
-      savedCrow: user.savedCrow,
+      savedCrow: user.savedcrow,
     });
   }
 

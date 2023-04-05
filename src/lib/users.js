@@ -142,3 +142,22 @@ export async function updateUserSavedCrow(username) {
 
   return null;
 }
+
+export async function updateUserVisitedAlchemist(username) {
+  const q = `
+    UPDATE users
+      SET
+        visitedAlchemist = true,
+        updated = CURRENT_TIMESTAMP
+      WHERE
+        username = $1;
+  `;
+
+  const result = await query(q, [username]);
+
+  if (result && result.rowCount === 1) {
+    return result.rows[0];
+  }
+
+  return null;
+}

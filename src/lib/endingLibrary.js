@@ -15,7 +15,7 @@ endings.home = new Ending(
 
 endings.bridge = new Ending(
   'Drowned in greed',
-  'https://i.redd.it/oq84qzfr2nk91.jpg',
+  'https://res.cloudinary.com/ddhokwpkf/image/upload/v1680707390/drownedCut_pr7qx4.jpg',
   `Halfway across the river you become exhausted and sink like a rock.
   With your final breath, you smile with pride for having 50 gold coins in your pocket rather than 40.`
 );
@@ -53,7 +53,7 @@ In the end, you are happy that you decided to go on an adventure and in your eld
 
 endings.kingsCrown = new Ending(
   'Invisibility potion',
-  'https://res.cloudinary.com/ddhokwpkf/image/upload/v1680609640/KingsCrown_c0l4tv.png',
+  'https://res.cloudinary.com/ddhokwpkf/image/upload/v1680704852/Crowpotion_nezgij.png',
   `You leave the village disappointed.
   As you're about to give up and head home, a familiar crow lands in front of you holding the invisibility potion from the alchemist.
   You hold your hand out and the crow drops the potion in your hand and flies away. They sure are smart creatures
@@ -68,13 +68,24 @@ endings.kingsCrown = new Ending(
   You sneak by and enter the treasure room
 
 It's an enormous cave, mostly comprised of gold coins with some gems and pearls scattered about.
-In the center stands a crown, embedded with more gems than you can count.
-This must be the king's crown!
-You put it on and it turns invisible.
+In the center sits a massive golden egg. You wonder if it's a hollow decoration or truly golden.
+It's warm to the touch. My goodness it's a dragon egg!
+Touching the egg turns it invisible. You wonder if you can sneak it out.
+You look around the treasure room and note that this dragon egg is the most valuable thing here.
+You hold the dragon egg and it turns invisible. It's heavy.
 
-You leave with the King's crown the same way you came in and return it to the king.
-The king is pleased and grants you a life of luxury and holds a feast in your honor.
-In the end, you are happy that you decided to go on an adventure and in your elder years you are content with your legacy.`
+The dragon doesn't suspect a thing as you slowly leave with their egg.
+You walk out the cave exhausted. You put the egg down, unsure if you can carry it back.
+You spot a familiar crow in the sky flying towards you carrying a golden crown.
+By the gods, this is a King's Crown! Where did it get that?
+The crow drops it near you.
+
+Several guards of the king arrive later and you explain yourself.
+They help you carry the egg and to the palace where you are greeted with cheers.
+The king is pleased and tells you that this will secure the kingdom's future.
+He grants you a life of luxury and holds a feast in your honor.
+In the end, you are famous, have many friends and most importantly you're happy.
+You're happy that you decided to go on an adventure and in your elder years you are content with your legacy.`
 );
 
 export { endings };
