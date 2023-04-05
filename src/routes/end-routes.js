@@ -8,6 +8,18 @@ import { updateUserLocation } from '../lib/users.js';
 
 export const endRouter = express.Router();
 
+async function doYouBelongHereMiddleware(req, res, next) {
+  const { user } = req;
+  const { ending } = req.params;
+
+  if (user.location !== `/ending/${ending}`) {
+    console.log('You dont belong here. Redirecting to',user.location)
+    return res.redirect(user.location);
+  }
+
+  return next();
+}
+
 async function endingExistsMiddleware(req, res, next) {
   const { ending } = req.params;
   console.log(`ending: ${ending}`);
@@ -77,6 +89,7 @@ endRouter.get('/:ending',
   ensureLoggedIn,
   endingExistsMiddleware,
   chronologicalOrderMiddleware,
+  doYouBelongHereMiddleware,
   logout,
   endRoute
 );

@@ -27,7 +27,7 @@
 
 <p style="white-space: pre-line"> You arrive at the Blacksmith's shop.
   On display you see two items: a blunt dagger and a "dragonslaying" sword.
-  The dagger is marked 'free', but the dragonslaying sword costs 50g
+  The dagger is marked 'free', but the dragonslaying sword costs 40g
 
   The blacksmith doesn't seem very busy so you ask him about these prices
   "Well traveler, this blunt dagger wasn't made by me. Someone left it here and
@@ -51,7 +51,7 @@
   </div>
   <div style ='float: left; padding: 5px;'>
     <form action="/end/dragonSlayer" method="post">
-      <button <% if (money >= 50) { %> disabled <% } %> >Buy the dragonslaying sword and head to Mount Ashmoor</button>
+      <button <% if (money < 40) { %> disabled <% } %> >Buy the dragonslaying sword and head to Mount Ashmoor</button>
     </form>
   </div>
   <% if (!visitedAlchemist) { %>
