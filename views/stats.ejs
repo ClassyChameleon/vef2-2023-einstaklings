@@ -1,0 +1,18 @@
+<%- include('header') -%>
+
+<h1><%= title %></h1>
+
+<table>
+  <tr>
+    <th>Ending name</th>
+    <th>Ending counter</th>
+  </tr>
+  <% for (ending of endings) { %>
+  <tr>
+    <td><%= ending.name %></td>
+    <td><%= ending.number %></td>
+  </tr>
+  <% } %>
+</table>
+
+<%- include('footer') -%>

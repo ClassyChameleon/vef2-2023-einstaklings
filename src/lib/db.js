@@ -86,7 +86,18 @@ export async function getEnding(ending) {
   return null;
 }
 
-// Don't use if user enters ending without going through the adventure (except home ending)
+export async function getEndings() {
+  const q = 'SELECT * FROM endings';
+
+  const result = await query(q);
+
+  if (result && result.rowCount > 0) {
+    return result.rows;
+  }
+
+  return null;
+}
+
 export async function incrementEnding(ending) {
   const q = 'UPDATE endings SET number = number + 1 WHERE name = $1 RETURNING *';
 

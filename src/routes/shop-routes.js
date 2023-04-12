@@ -68,6 +68,7 @@ async function shopRoute(req, res) {
       includeStats: true,
       money: user.money,
       visitedAlchemist: user.visitedalchemist,
+      savedCrow: user.savedcrow,
     });
   }
   if (shop === 'alchemist') {

@@ -6,6 +6,7 @@
   hasUser : boolean,
   includeStats : boolean
   visitedAlchemist : boolean
+  savedCrow : boolean
    -->
 
 <!-- If hasUser, then requires
@@ -32,10 +33,12 @@
   The blacksmith doesn't seem very busy so you ask him about these prices
   "Well traveler, this blunt dagger wasn't made by me. Someone left it here and
   I don't feel right charging money for it. Especially since I know nothing about it.
-  However, this dragonslaying sword is made by me. It's of Valyrian steel, which as you
-  might know is very expensive metal, and is the only metal known to cut through dragonskin.
-  My hope is that someone takes it and slays the dragon of Mount Ashmoor while it slumbers
-  because when it awakens, it is sure to wipe out this village and many more" </p>
+  However, this dragonslaying sword is made by me. It's of Valyrian steel, which
+  as you might know is very expensive metal, and is the only metal known to cut
+  through dragonskin.
+  My hope is that someone takes it and slays the dragon of Mount Ashmoor
+  while it slumbers because when it awakens,
+  it is sure to wipe out this village and many more" </p>
 <br>
 <% if (includeStats) { %>
   <div style="display: flex; justify-content: center;">
@@ -56,13 +59,13 @@
   </div>
   <% if (!visitedAlchemist) { %>
     <div style ='float: left; padding: 5px;'>
-      <form action="/end/town" method="post">
+      <form action="/shop/alchemist" method="post">
         <button>Visit Alchemist</button>
       </form>
     </div>
   <% } %>
   <div style ='float: left; padding: 5px;'>
-    <form action="/end/town" method="post">
+    <form action="<% if (savedCrow && visitedAlchemist) { %> /end/kingsCrown <% } else { %>/end/town <% } %>" method="post">
       <button>Give up and go home</button>
     </form>
   </div>

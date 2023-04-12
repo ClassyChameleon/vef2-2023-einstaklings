@@ -12,7 +12,7 @@ async function doYouBelongHereMiddleware(req, res, next) {
   const { user } = req;
   const { ending } = req.params;
 
-  if (user.location !== `/ending/${ending}`) {
+  if (user.location !== `/end/${ending}`) {
     console.log('You dont belong here. Redirecting to',user.location)
     return res.redirect(user.location);
   }
@@ -44,14 +44,12 @@ async function chronologicalOrderMiddleware(req, res, next) {
     return next();
   }
 
-
   console.log(`chronological order broken. Redirecting to: ${location}`);
   return res.redirect(location);
 }
 
 async function incrementEndingRoute(req, res, next) {
   console.log(`req.user: ${req.user.username}`);
-  if (req.user === undefined) { return next(); }
   const { user } = req;
 
   const { ending } = req.params;
@@ -88,7 +86,6 @@ async function endRoute(req, res) {
 endRouter.get('/:ending',
   ensureLoggedIn,
   endingExistsMiddleware,
-  chronologicalOrderMiddleware,
   doYouBelongHereMiddleware,
   logout,
   endRoute

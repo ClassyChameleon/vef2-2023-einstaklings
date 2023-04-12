@@ -67,10 +67,10 @@ endings.kingsCrown = new Ending(
   You head off to Mount Ashmoor as you are sure this potion will help you get some treasure.
   As you approach the dragon, you gulp down your invisibility potion.
   It really works, you are invisible!
-  Your clothes are also invisible. Seems that everything you touch also becomes invisible.
+  Seems that everything you touch also becomes invisible, including your clothes.
   As you sneak by the slumbering dragon, it wakes up.
   You stand still and hear your heartbeat pulsing quickly.
-  The dragon sees nothing wrong and goes back to sleep.
+  The dragon scans the room and goes back to sleep.
   You sneak by and enter the treasure room
 
 It's an enormous cave, mostly comprised of gold coins with some gems and pearls scattered about.
@@ -87,12 +87,12 @@ By the gods, this is a King's Crown! Where did it get that?
 The crow drops it near you.
 
 Several guards of the king arrive later and you explain yourself.
-They help you carry the egg and to the palace where you are greeted with cheers.
+They help you carry the egg to the palace where you are greeted with cheers.
 The king is pleased and tells you that this will secure the kingdom's future.
 He grants you a life of luxury and holds a feast in your honor.
 In the end, you are famous, have many friends and most importantly you're happy.
 You're happy that you decided to go on an adventure and in your elder years you are content with your legacy.`,
-  ['/shop/alchemist']
+  ['/shop/alchemist', '/shop/smith']
 );
 
 export { endings };

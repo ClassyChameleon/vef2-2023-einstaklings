@@ -1,6 +1,7 @@
 import { Cloudinary } from '@cloudinary/url-gen';
 import { Resize } from '@cloudinary/url-gen/actions';
 import express from 'express';
+import { getEndings } from '../lib/db.js';
 import passport, { ensureLoggedIn, logout } from '../lib/login.js';
 import { createUser } from '../lib/users.js';
 
@@ -81,6 +82,17 @@ async function continueRoute(req, res) {
   return res.redirect(user.location);
 }
 
+async function showStats(req, res) {
+  const data = await getEndings();
+
+  console.log(data);
+
+  return res.render('stats', {
+    title: 'Statistics about endings',
+    endings: data
+  });
+}
+
 // ===================================
 //              ROUTES
 // ===================================
@@ -107,3 +119,5 @@ indexRouter.post('/start', logoutMiddleware, createUserMiddleware,
   }),
   startRoute
 );
+
+indexRouter.get('/stats', showStats);
