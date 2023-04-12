@@ -44,6 +44,11 @@ async function adventurePatchRoute(req, res, next) {
   const { option } = req.body; // 1 or 2
   const { adventure } = req.params;
   const { user } = req;
+  if (parseInt(option, 10) !== 1 && parseInt(option, 10) !== 2) {
+    const { location } = user;
+    return res.redirect(location);
+  }
+
   updateUserLocation(user.username, `/adventure/${adventure}`);
   if (adventure === 'townNight' && parseInt(option, 10) === 2) {
     const { money } = await getUserMoney(user.username);
