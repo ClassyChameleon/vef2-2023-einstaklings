@@ -60,8 +60,17 @@ async function createUserMiddleware(req, res, next) {
 }
 
 async function indexRoute(req, res) {
+  let message = '';
+
+  // Athugum hvort einhver skilaboð séu til í session, ef svo er birtum þau
+  // og hreinsum skilaboð
+  if (req.session.messages && req.session.messages.length > 0) {
+    message = req.session.messages.join(', ');
+    req.session.messages = [];
+  }
   return res.render('beginning', {
     title: 'Adventure game',
+    message,
   });
 }
 
@@ -92,8 +101,8 @@ indexRouter.get('/', indexRoute);
 indexRouter.post('/',
   (req, res, next) => next(),
   passport.authenticate('token', {
-    failureMessage: 'Notandanafn eða lykilorð vitlaust.',
-    failureRedirect: '/loginFailed',
+    failureMessage: 'Username token not found',
+    failureRedirect: '/',
   }),
   continueRoute
 );
@@ -101,8 +110,9 @@ indexRouter.post('/',
 indexRouter.get('/start', ensureLoggedIn, startRoute);
 indexRouter.post('/start', logoutMiddleware, createUserMiddleware,
   passport.authenticate('token', {
-    failureMessage: 'Token error: Please don\'t tell anyone',
-    failureRedirect: '/loginFailed',
+    failureMessage:
+    'Token error: couldn\'t authenticate auto-generated token. Please don\'t tell anyone',
+    failureRedirect: '/',
   }),
   startRoute
 );
