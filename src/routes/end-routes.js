@@ -13,7 +13,6 @@ async function doYouBelongHereMiddleware(req, res, next) {
   const { ending } = req.params;
 
   if (user.location !== `/end/${ending}`) {
-    console.log('You dont belong here. Redirecting to',user.location)
     return res.redirect(user.location);
   }
 
@@ -22,13 +21,11 @@ async function doYouBelongHereMiddleware(req, res, next) {
 
 async function endingExistsMiddleware(req, res, next) {
   const { ending } = req.params;
-  console.log(`ending: ${ending}`);
 
   if (ending in endings) {
     return next();
   }
 
-  console.log('ending not found: redirecting to /');
   return res.redirect('/');
 }
 
@@ -38,23 +35,18 @@ async function chronologicalOrderMiddleware(req, res, next) {
   const info = endings[ending];
   const { location } = user;
 
-  console.log('user.location:',location);
-  console.log('caught ending:',ending);
   if (info.prev.includes(location)) {
     return next();
   }
 
-  console.log(`chronological order broken. Redirecting to: ${location}`);
   return res.redirect(location);
 }
 
 async function incrementEndingRoute(req, res, next) {
-  console.log(`req.user: ${req.user.username}`);
   const { user } = req;
 
   const { ending } = req.params;
 
-  console.log('ending exists; incrementing');
   await incrementEnding(ending);
   updateUserLocation(user.username, `/end/${ending}`);
   return next();
@@ -71,7 +63,6 @@ async function endRoute(req, res) {
     .resize(Resize.scale().width(600).height(400));
 
   const endingCount = (await getEnding(ending)) -1;
-  console.log(endingCount);
 
   res.render('end', {
     title: info.title,

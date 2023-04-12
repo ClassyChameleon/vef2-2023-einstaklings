@@ -16,7 +16,6 @@ async function adventureExistsValidator(req, res, next) {
   const { adventure } = req.params;
   const { user } = req;
   if (!(adventure in adventures)) {
-    console.log(`adventure '${adventure}' not found. Redirecting to last safe location`);
     return res.redirect(user.location);
   }
 
@@ -29,35 +28,24 @@ async function chronologicalOrderMiddleware(req, res, next) {
   const { adventure } = req.params;
 
   const { location } = user;
-  console.log('user.location:',location);
-  console.log('caught adventure:',adventure);
   // location = '/adventure/farm', simplerLocation = 'farm'
-  const simpleLocation = location.substr(11);
   if (adventure === 'farm' && location === '/start') {
     return next();
   }
-  console.log(`${adventures[simpleLocation].previous} ${adventure}`)
   if (adventures[adventure].previous === location ||
       location === `/adventure/${adventure}`) {
     return next();
   }
 
-
-  console.log(`chronological order broken. Redirecting to: ${location}`);
   return res.redirect(location);
 }
 
 async function adventurePatchRoute(req, res, next) {
-  console.log('Patch route...');
   const { option } = req.body; // 1 or 2
   const { adventure } = req.params;
   const { user } = req;
-  console.log(`Consequence with option: ${option}`);
   updateUserLocation(user.username, `/adventure/${adventure}`);
-  console.log(`adventure+option: ${(`${adventure}${option}`) in adventurePatches}`);
-  console.log(`adventure+option value: ${`${adventure}${option}`}`);
   if (adventure === 'townNight' && parseInt(option, 10) === 2) {
-    console.log('townNight and option 2 accepted');
     const { money } = await getUserMoney(user.username);
     if (money >= 50) {
       return res.redirect(307, '/end/bridge'); // 307 - POST
@@ -81,12 +69,9 @@ async function adventureRoute(req, res) {
   const { adventure } = req.params;
   const info = adventures[adventure];
   const { user } = req;
-  console.log(`Consequence with option: ${option}`)
-  console.log(info[`consequence${option}`]);
 
   let disableOption1 = false;
   if ((adventure === 'bridge' || adventure === 'townNight') && user.money < 10) {
-    console.log('disabled option 1', adventure, user.money);
     disableOption1 = true;
   }
 

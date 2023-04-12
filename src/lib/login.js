@@ -12,15 +12,11 @@ import { createUser, findByUsername } from './users.js';
  * @param {function} done Fall sem kallað er í með niðurstöðu
  */
 async function strat(token, done) {
-  console.log('auth start...');
   try {
-    console.log(`Attempting to authenticate: ${token}`);
     const user = await findByUsername(token);
-    console.log(`User: ${user.username}`);
     if (!user) {
       return done(null, false);
     }
-    console.log('User found');
     return done(null, user);
   } catch (err) {
     console.error(err);
@@ -54,11 +50,9 @@ passport.deserializeUser(async (token, done) => {
 // þá áfram, annars sendir á rótina. Sækir líka user frá database
 export async function ensureLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
-    console.log('isAuthenticated');
     req.user = await findByUsername(req.user.username);
     return next();
   }
-  console.log('not isAuthenticated');
 
   return res.redirect('/');
 }

@@ -8,7 +8,6 @@ import { createUser } from '../lib/users.js';
 export const indexRouter = express.Router();
 
 async function startRoute(req, res) {
-  console.log('at start route');
 
   const cldInstance = new Cloudinary({cloud: {cloudName: 'ddhokwpkf'}});
   const fetchedImage = cldInstance
@@ -35,14 +34,11 @@ async function startRoute(req, res) {
 }
 
 async function logoutMiddleware(req, res, next) {
-  console.log('At logoutMiddleware');
   if (req.isAuthenticated()) {
-    console.log('user location: ',req.user.location);
     if (req.user.location === '/start') {
       return res.redirect('/start');
     }
 
-    console.log('Logging out');
     req.logout((err) => {
       if (err) { return next(); }
       return next();
@@ -53,7 +49,6 @@ async function logoutMiddleware(req, res, next) {
 }
 
 async function createUserMiddleware(req, res, next) {
-  console.log('createUserMIddleware');
 
   const user = await createUser();
   // Example: user.username -> 4TXRY
@@ -76,16 +71,11 @@ async function continueRoute(req, res) {
   }
   const { user } = req;
 
-  console.log(user);
-  console.log(user.location);
-
   return res.redirect(user.location);
 }
 
 async function showStats(req, res) {
   const data = await getEndings();
-
-  console.log(data);
 
   return res.render('stats', {
     title: 'Statistics about endings',
@@ -100,10 +90,7 @@ async function showStats(req, res) {
 indexRouter.get('/logout', logout, (req, res) => res.redirect('/'));
 indexRouter.get('/', indexRoute);
 indexRouter.post('/',
-  (req, res, next) => {
-    console.log(`Continuing as user: ${req.body.token}`);
-    return next();
-  },
+  (req, res, next) => next(),
   passport.authenticate('token', {
     failureMessage: 'Notandanafn eða lykilorð vitlaust.',
     failureRedirect: '/loginFailed',
