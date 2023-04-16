@@ -5,104 +5,58 @@
 `npm run setup`  
 `npm run start` # eða `npm run dev`  
 
-# Vefforritun 2, 2023, einstaklingsverkefni
+# Hýsing:
 
-[Kynning í fyrirlestri](https://youtu.be/Ojdkr6W5n6M).
+https://gvg8-vef2-2023-einstaklings.onrender.com/  
+https://gvg8-vef2-2023-einstaklings.onrender.com/stats  
 
-## Lýsing
+# Skýrsla
 
-Verkefnið er tvíþætt:
+## Hvað er verkefnið mitt?
 
-1. Verkefni og skýrsla sem þið vinnið sjálf, gildir 10% af lokaeinkunn.
-2. Valkvæm kynning á verkefni, gildir 10% af lokaeinkunn til upphækkunnar.
+Verkefnið mitt er Choose Your Own Adventure leikur með nokkra endi, og það sem þú gerir í ævintýrinnu ákveður hvaða endir þú færð  
+Verkefnið mitt heldur utan um pening, orku, staðsetningu notendans og nokkrar ákvarðarnir sem hann gerði  
 
-Ætlast er til að allir vinni og skili verkefni og skýrslu.
+## Kröfur sem ég uppfylli
+ - Notendaumsjón (Bæði upp á það að geta haldið áfram þó þú aftengist leiknum og til að passa að spilari fer rétt í gegnum ævintýrið og getur ekki svindlað með fölsuð requests)
+ - EJS framenda framework (notað til að forðast endurtekningar. Allir kaflar eru með sömu uppsetningu í ævintýrinnu en mismunandi lýsingar, ákvarðarnir og mismunandi mynd. Gott tól til að fylgja DRY regluni: Don't Repeat Yourself)
+ - Gagnagrunnur (Nauðsynlegt fyrir notendaumsjón. Líka gaman að sjá hversu margir hafa komist að ákveðnum enda)
+ - UML Skrá (Gott að skipuleggja fyrir fram og skrifa niður söguna. Gefur betri yfirsýn yfir Scope af verkefninu)
 
-### Verkefni og skýrsla
+UML Skráin: https://app.diagrams.net/?src=about#G1EciFmpaA_1p22NwlBQYmXGVKQGeTZ-tF
 
-Verkefni unnið kringum efnistök og er í formi forrits eða viðmóts sem unnið er frá grunni.
+## Notendaumsjón
 
-Skilyrði er að verkefnið skal nýta a.m.k. þrennt af eftirfarandi:
+Vill ekki að notandi þurfi að ákveða Username og Password, vill að hann geti farið og spilað strax.  
+Ákvað að auto-generated Token væri lausnin sem er ID + 4 bókstafir af handahófi  
+ - Dæmi: 1TARP, 29FART  
+ - Talan tryggir að þetta Token sé einstakt og 4 bókstafirnir tryggja að enginn getur giskað og komist inn í ævintýri annara  
 
-- Einhversskonar próf skrifuð sem skipta máli.
-- Notendaumsjón útfærð.
-- Vefþjónusta (REST eða GraphQL) útfærð.
-- Bakendi útfærður (ekki krafa )
-- Framendi útfærður (með template máli, React, Svelte eða öðru framenda framework).
-- Gagnagrunnur (SQL eða NoSQL) notað.
-- Hönnunarskjöl útfærð (Figma, UML rit eða álíka) og kynnt í skýrslu.
-- Greining á verkefni unnin fyrirfram t.d. ef verkefnið er stærra en það sem formast innan þessa verkefnis (t.d. tímalínur, niðurbrot á verkþáttum) og kynnt í skýrslu.
+## Forðast endurtekningar (DRY: Don't Repeat Yourself)
 
-Skýrsla er skjölun á því hvað var gert og hvernig það tengist vefforritun, hvaða skilyrði og hvernig þau voru uppfyllt.
+(Sýna kóða)  
+Router tekur '/adventure/:adventure', skoðar hvaða upplýsingar eru tengdar við :adventure breytunni í AdventureLibrary.js og sendir það inn í adventure.ejs  
+Þetta tryggir að upplýsingarnar fyrir hvern kafla í ævintýrinnu eru settar upp á snyrtilegan máta og að ég þarf ekki að gera HTML skjal fyrir hvern einasta kafla.  
 
-Form skýrslur skal annaðhvort vera Markdown skjöl í repo (`readme.md` og hugsanlega fleiri skrár) eða sem PDF skjali.
+## Brot á staðli
 
-### Kynning
+Ég reyndi að nota <form method="patch"... > fyrir valkostina á hverjum kafla þar sem að aðgerðin er að uppfæra stöðu leikmanns, en það var að senda GET beiðni.  
+Kemur í ljós að <form> styður bara method="get"|"post".  
+Ég sá að method=post myndi virka, þannig ég ákvað að gera það.
 
-Skila þarf verkefni og skýrslu _fyrir_ kynningu til að geta fengið fulla einkunn.
+## Vitaðir veikleikar
 
-Kynning fer fram í mánudags eða miðvikudagstíma fyrir framan kennara og aðra nemendur. Kynning fer yfir það sem kemur fram í skýrslu og sýnir dæmi úr forriti.
 
-Lengd skal vera um 10 mínútur, hámark 15 mínútur.
 
-Eftir kynningu þarf að svara óundirbúnum spurningum frá kennara.
+ - Engin vörn gegn því ef einhver myndi setja upp botta sem byrjar stöðugt nýtt ævintýri  
+    - Í professional umhverfi myndi maður setja upp kerfi sem sér að einhver er búinn að senda sama requestið 10 sinnum á einni sekúndu og myndi þá hunsa hann í einhvern tíma
+      - Mín lausn var að biðja ykkur fallega að ekki stress testa leikinn, og mér sýnist þið hafa verið dugleg í því :)  
 
-### Hugmyndir um efnistök
+ - Frí þjónusta = takmörkuð þjónusta  
+    - Cloudinary fría þjónustan bíður upp á 25 'Credits' hverja 30 daga. Kominn upp í 0.09 seinast þegar ég checkaði.  
+      - Ef einhver finnur leið til að nýta þjónustuna mína hjá Cloudinary 300 sinnum meira en hann er að gera, þá mun þjónustan hökkta og Cloudinary biðja mig um að gefa þeim pening  
+  - Render: max 750 klukkutíma runtime, 100 GB egress bandwidth eða 1 GB gagnageymsla  
+    - Ef 750 klukkutíma runtime eða 100 GB egress bandwidth er búið, þá slekkur þjónustan á sér þar til næsta mánuð  
+    - Ef 1 GB gagnageymslan er full, þá hökktar þjónustan og Render biður mig um að gefa þeim pening  
 
-Verkefnið er viljandi opið, þið megið gera hérumbil hvað sem er svo lengi sem það hefur _einhverja_ tengingu við vefforritun (þarf ekki einu sinni að vera tengt við neitt sem við gerðum í vor!)
 
-Til dæmis:
-
-- Önnur framendaframework, t.d. Vue,
-- Vefforritun í öðru forritunarmáli/forritunarumhverfi, t.d. Ruby on Rails, .NET, PHP.
-- Notkun á öðrum gagnagrunnum, SQL eða NoSQL
-- App dæmi sem nýtir t.d. React Native eða Flutter.
-- Útfærsla á verkefni í formi vefforrits:
-  - Einhver „viðskiptahugmynd“, getur verið í formi „proof of concept“.
-  - Þitt eigin vefur/blog.
-  - Vefur um efni/áhugamál.
-
-## Sett fyrir og skráning
-
-Verkefni sett fyrir í fyrirlestri mánudaginn 13. febrúar 2023.
-
-Skrá þarf sig til að taka þátt í aukaverkefni fyrir 13. mars 2023, sjá Canvas. Skráning er ekki bindandi.
-
-## Mat
-
-- Verkefni og skýrsla:
-  - 20% Verkefni er fullklárað.
-  - 50% Efnistök og tenging við vefforritun, skilyrði uppfyllt.
-  - 30% Skýrsla.
-- Kynning
-  - 10% Kynning virðir tímamörk.
-  - 20% Uppsetning, glærur, forritunardæmi.
-  - 50% Kynningin skýr og auðvelt að fylgja eftir.
-  - 20% Svör við óundirbúnum spurningum.
-
-## Skil
-
-Kynningar fara fram í fyrirlestrartímum:
-
-- mánudaginn 27. mars 2023.
-- miðvikudaginn 29. mars 2023.
-- mánudaginn 17. apríl 2023.
-- miðvikudaginn 19. apríl 2023.
-
-Skráning á þær er sérstaklega tiltekin í verkefnalýsingu á Canvas. **Skila þarf verkefni og skýrslu fyrir kynningu**.
-
-Skil á kláruðu verkefni _án kynningar_ skal skila á Canvas í seinasta lagi föstudaginn 21. apríl 2023.
-
-Skil skulu innihalda:
-
-- Slóð á verkefni keyrandi á hýsingu, ef við á.
-- Slóð á GitHub repo fyrir verkefni, bjóða skal `osk` í repo.
-- Skýrsla (sjá kröfur um form að ofan).
-
----
-
-> Útgáfa 0.1
-
-| Útgáfa | Breyting      |
-| ------ | ------------- |
-| 0.1    | Fyrsta útgáfa |
