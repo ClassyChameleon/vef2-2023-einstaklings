@@ -15,10 +15,18 @@ https://gvg8-vef2-2023-einstaklings.onrender.com/stats
 ## Hvað er verkefnið mitt?
 
 Verkefnið mitt er Choose Your Own Adventure leikur með nokkra endi, og það sem þú gerir í ævintýrinnu ákveður hvaða endir þú færð  
-Verkefnið mitt heldur utan um pening, orku, staðsetningu notendans og nokkrar ákvarðarnir sem hann gerði  
+
+## Hvernig tengist þetta vefforritun?
+
+Þetta sýnir að með fríum þjónustum er hægt að búa til leik á netinu fyrir vinahóp.  
+Ég notaði Render til að hýsa vefþjónustuna og gagnagrunninn.  
+ - Seinast þegar ég athugaði er ég búinn að nota 3% af mínum mánaðarlegum kvóta fyrir vefþjónustuna og 6.5% af mínu 1.0 GB fyrir gagnagrunninn  
+ 
+Ég notaði Cloudinary til að hýsa myndirnar sem vefþjónustan þarf.
+ - Af mínum 25 mánaðarlegum Credits er ég búinn að nota 0.09. Þetta þýðir að Cloudinary getur þjónustað circa 300 sinnum meira en hún er búin að gera.  
 
 ## Kröfur sem ég uppfylli
- - Notendaumsjón (Bæði upp á það að geta haldið áfram þó þú aftengist leiknum og til að passa að spilari fer rétt í gegnum ævintýrið og getur ekki svindlað með fölsuð requests)
+ - Notendaumsjón. Bæði upp á það að geta haldið áfram þó þú aftengist leiknum og til að passa að spilari fer rétt í gegnum ævintýrið og getur ekki svindlað með fölsuð requests (fjalla meira um seinna)
  - EJS framenda framework (notað til að forðast endurtekningar. Allir kaflar eru með sömu uppsetningu í ævintýrinnu en mismunandi lýsingar, ákvarðarnir og mismunandi mynd. Gott tól til að fylgja DRY regluni: Don't Repeat Yourself)
  - Gagnagrunnur (Nauðsynlegt fyrir notendaumsjón. Líka gaman að sjá hversu margir hafa komist að ákveðnum enda)
  - UML Skrá (Gott að skipuleggja fyrir fram og skrifa niður söguna. Gefur betri yfirsýn yfir Scope af verkefninu)
@@ -45,8 +53,6 @@ Kemur í ljós að <form> styður bara method="get"|"post".
 Ég sá að method=post myndi virka, þannig ég ákvað að gera það.
 
 ## Vitaðir veikleikar
-
-
 
  - Engin vörn gegn því ef einhver myndi setja upp botta sem byrjar stöðugt nýtt ævintýri  
     - Í professional umhverfi myndi maður setja upp kerfi sem sér að einhver er búinn að senda sama requestið 10 sinnum á einni sekúndu og myndi þá hunsa hann í einhvern tíma
